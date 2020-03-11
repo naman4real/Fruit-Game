@@ -1,0 +1,50 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class playAudio : MonoBehaviour
+{
+    [SerializeField] List<AudioSource> audio;
+    private mechanics m;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        //audio = GetComponent<AudioSource>();
+        //audio = GetComponent<AudioSource>();
+        //audio.Play();   
+        m = GameObject.Find("hand").GetComponent<mechanics>();
+
+        
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (!audio[0].isPlaying)
+        {
+            audio[0].Play();           
+        }
+        //Debug.Log(m.playPluck+"pluck");
+        if(m.playPluck)
+        {
+            
+            audio[0].volume = 0.5f;
+            if(!audio[1].isPlaying)
+            {
+                audio[1].PlayOneShot(audio[1].clip);
+                StartCoroutine(change());
+            }
+                      
+        }
+    }
+    IEnumerator change()
+    {
+        yield return new WaitForSeconds(audio[1].clip.length);
+        
+        m.playPluck = false;
+        yield return new WaitForSeconds(0.5f);
+        audio[0].volume = 1f;
+    }
+
+}

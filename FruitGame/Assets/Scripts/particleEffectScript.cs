@@ -38,6 +38,7 @@ public class particleEffectScript : MonoBehaviour
             //ps.transform.position = collision.collider.transform.position;
 
             collision.collider.GetComponent<Rigidbody>().isKinematic = true;
+            collision.collider.tag = "hunted";
 
         }
 

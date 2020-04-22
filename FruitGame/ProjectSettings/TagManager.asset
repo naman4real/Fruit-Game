@@ -7,6 +7,7 @@ TagManager:
   - selectable
   - fruits
   - stone
+  - hunted
   layers:
   - Default
   - TransparentFX

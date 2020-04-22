@@ -27,7 +27,6 @@ public class mechanics : MonoBehaviour
     }
     void Start()
     {
-        //UnityEngine.XR.InputTracking.disablePositionalTracking = true;
         oscGameObject = GameObject.Find("OSC");
         oscScript = oscGameObject.GetComponent<OSC>();
         oscScript.SetAddressHandler("/Spirometer/C", BreathData);
@@ -72,18 +71,20 @@ public class mechanics : MonoBehaviour
                 //originalObjPosition = obj.transform.position;
                 cont = stones[count].GetComponent<ParabolaController>();
                 move = true;
+                vfx[count].SetActive(true);
+                vfx[count].transform.GetChild(0).gameObject.SetActive(false);
 
             }
 
         }
         if (move)
         {
-
             stones[count].transform.position = Vector3.MoveTowards(stones[count].transform.position, this.transform.position, Time.deltaTime * speed);
-            vfx[count].SetActive(true);
-            vfx[count].transform.GetChild(0).gameObject.SetActive(false);
-
-
+            //stones[count].transform.position += (transform.position - stones[count].transform.position).normalized * 5f * Time.deltaTime;
+            if (Vector3.Distance(transform.position, stones[count].transform.position) <=0.1f)
+            {
+                move = false;
+            }
         }
 
         if (stones[count] && Vector3.Distance(stones[count].transform.position, transform.position) <= 0.01f)
@@ -92,10 +93,9 @@ public class mechanics : MonoBehaviour
         }
         // When the stone has arrived near the player
 
-        if ((Input.GetKeyDown(KeyCode.D) || OVRInput.Get(OVRInput.RawButton.A) || flag==3)  && Vector3.Distance(stones[count].transform.position, this.transform.position)<0.1f && fruitCount<fru.Count && s.stay)
+        if ((Input.GetKeyDown(KeyCode.D) || OVRInput.Get(OVRInput.RawButton.A) || flag==3)  && Vector3.Distance(stones[count].transform.position, this.transform.position)<=0.1f && fruitCount<fru.Count && s.stay)
         {
             vfx[count].transform.GetChild(0).gameObject.SetActive(true);
-
             move = false;
             GameObject.Find("Trails").GetComponent<ParticleSystem>().Play();
             GameObject point1 = new GameObject();
@@ -125,11 +125,15 @@ public class mechanics : MonoBehaviour
     
           
 
-        }//When the stone has hit the  fruit
+        }
+        
+        
+        //When the stone has hit the  fruit
         if (count<stones.Count && stones[count] && Vector3.Distance(stones[count].transform.position, s.go.transform.position) < 1f && fruitCount<fru.Count)
         {
+            var particleEffect = stones[count].transform.GetChild(0);
             stones[count].transform.GetChild(0).transform.parent = null;
-   
+
             stones[count].GetComponent<Rigidbody>().useGravity = true;
             playPluck = true;
             Destroy(stones[count]);

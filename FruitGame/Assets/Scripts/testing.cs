@@ -16,6 +16,7 @@ public class testing : MonoBehaviour
     private int inhaleAmount;
     private int exhaleAmount;
     private int numOfCycles;
+    public int gameIndex = -1;
 
 
 
@@ -60,6 +61,7 @@ public class testing : MonoBehaviour
                     Debug.Log("pressed "+animatorFunctions.index);
                     if(animatorFunctions.index==0 || animatorFunctions.index == 1)
                     {
+                        gameIndex = animatorFunctions.index;
                         StartCoroutine(toInputsMenu());
                     }
                     else if(animatorFunctions.index>=3 && animatorFunctions.index <= 8)
@@ -115,7 +117,15 @@ public class testing : MonoBehaviour
     {
         audio.PlayOneShot(audio.clip);
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("FruitWorld");
+        if (gameIndex == 0)
+        {
+            SceneManager.LoadScene("FruitWorld");
+
+        }
+        else if (gameIndex == 1)
+        {
+            SceneManager.LoadScene("SpaceQuest");
+        }
     }
     IEnumerator backToStartenu()
     {

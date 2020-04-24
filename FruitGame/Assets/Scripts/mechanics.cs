@@ -60,7 +60,7 @@ public class mechanics : MonoBehaviour
         OVRInput.Update();
 
         // inhale the stone
-        if (Input.GetKeyDown(KeyCode.Space) || OVRInput.Get(OVRInput.RawButton.RIndexTrigger) || flag==1)
+        if (Input.GetKey(KeyCode.Space) || OVRInput.Get(OVRInput.RawButton.RIndexTrigger) || flag==1)
         {
             if (count == stones.Count)
             {
@@ -74,17 +74,25 @@ public class mechanics : MonoBehaviour
                 vfx[count].SetActive(true);
                 vfx[count].transform.GetChild(0).gameObject.SetActive(false);
 
+                stones[count].transform.position = Vector3.MoveTowards(stones[count].transform.position, this.transform.position, Time.deltaTime * speed);
+
+
             }
 
         }
-        if (move)
+        //if (move)
+        //{
+        //    stones[count].transform.position = Vector3.MoveTowards(stones[count].transform.position, this.transform.position, Time.deltaTime * speed);
+        //    //stones[count].transform.position += (transform.position - stones[count].transform.position).normalized * 5f * Time.deltaTime;
+        //    if (Vector3.Distance(transform.position, stones[count].transform.position) <=0.1f)
+        //    {
+        //        move = false;
+        //    }
+        //}
+
+        else if(!Input.GetKey(KeyCode.Space) && Vector3.Distance(stones[count].transform.position, transform.position) > 0.2f)
         {
-            stones[count].transform.position = Vector3.MoveTowards(stones[count].transform.position, this.transform.position, Time.deltaTime * speed);
-            //stones[count].transform.position += (transform.position - stones[count].transform.position).normalized * 5f * Time.deltaTime;
-            if (Vector3.Distance(transform.position, stones[count].transform.position) <=0.1f)
-            {
-                move = false;
-            }
+            //stones[count].GetComponent<Rigidbody>().
         }
 
         if (stones[count] && Vector3.Distance(stones[count].transform.position, transform.position) <= 0.01f)

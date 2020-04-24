@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimatorFunctions : MonoBehaviour
+public class MenuAnimatorFunctions : MonoBehaviour
 {
 	[SerializeField] MenuButtonController menuButtonController;
 	public bool disableOnce;

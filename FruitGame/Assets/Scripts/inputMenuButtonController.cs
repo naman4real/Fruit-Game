@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuButtonController : MonoBehaviour {
+public class inputMenuButtonController : MonoBehaviour
+{
 
 	// Use this for initialization
 	public int index;
@@ -10,18 +11,19 @@ public class MenuButtonController : MonoBehaviour {
 	[SerializeField] int maxIndex;
 	public AudioSource audioSource;
 
-	void Start () {
+	void Start()
+	{
 		audioSource = GetComponent<AudioSource>();
 	}
-	
+
 	// Update is called once per frame
-	void Update () 
+	void Update()
 	{
-		if (Input.GetAxis("Vertical") != 0)
+		if (Input.GetAxis("Horizontal") != 0)
 		{
 			if (!keyDown)
 			{
-				if (Input.GetAxis("Vertical") < 0)
+				if (Input.GetAxis("Horizontal") < 0)
 				{
 					if (index < maxIndex)
 					{
@@ -32,7 +34,7 @@ public class MenuButtonController : MonoBehaviour {
 						index = 0;
 					}
 				}
-				else if (Input.GetAxis("Vertical") > 0)
+				else if (Input.GetAxis("Horizontal") > 0)
 				{
 					if (index > 0)
 					{

@@ -8,6 +8,7 @@ TagManager:
   - fruits
   - stone
   - hunted
+  - button
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
+  - Buttons
   - 
   - 
   - 

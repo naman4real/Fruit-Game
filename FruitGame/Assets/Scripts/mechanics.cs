@@ -16,14 +16,12 @@ public class mechanics : MonoBehaviour
     private GameObject oscGameObject;
     public List<GameObject> fru;
     [SerializeField] private float speed = 3f;
-    [SerializeField] private List<Material> sky;
     [SerializeField] private List<GameObject> vfx;
     [SerializeField] private GameObject sel;
     private select s;
 
     private void Awake()
     {
-        RenderSettings.skybox = sky[Random.Range(0, sky.Count)];
     }
     void Start()
     {

@@ -2,13 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-
-//[System.Serializable]
-//public class animationParamaters{
-//     public List<Animator> allAnimators;
-//     public List<MenuAnimatorFunctions> allAnimatorFunctions;
-
-//}
+using UnityEngine.UI;
+using TMPro;
 
 public class testing : MonoBehaviour
 {
@@ -18,6 +13,12 @@ public class testing : MonoBehaviour
     private Animator lastAnimator;
     private MenuAnimatorFunctions animatorFunctions;
     public static AudioSource audio;
+    private int inhaleAmount;
+    private int exhaleAmount;
+    private int numOfCycles;
+
+
+
     [SerializeField] Animator MenuAnimator;
 
 
@@ -25,6 +26,9 @@ public class testing : MonoBehaviour
     {
         lastAnimator = null;
         audio = GetComponent<AudioSource>();
+        inhaleAmount = 1;
+        exhaleAmount = 1;
+        numOfCycles = 1;
     }
 
     void Update()
@@ -46,14 +50,12 @@ public class testing : MonoBehaviour
                 }
                 lastAnimator = animator;
 
-
                 animator.SetBool("selected", true);
                 if (Input.GetMouseButtonDown(0))
                 {
                     animator.SetBool("pressedButton", true);
                     animator.SetTrigger("pressed");
                     
-
 
                     Debug.Log("pressed "+animatorFunctions.index);
                     if(animatorFunctions.index==0 || animatorFunctions.index == 1)
@@ -62,7 +64,7 @@ public class testing : MonoBehaviour
                     }
                     else if(animatorFunctions.index>=3 && animatorFunctions.index <= 8)
                     {
-                        StartCoroutine(increment());
+                        StartCoroutine(increment_decrement(animatorFunctions.index, hit.collider.gameObject));
                     }
                     else if(animatorFunctions.index == 9)
                     {
@@ -107,8 +109,6 @@ public class testing : MonoBehaviour
     {
         audio.PlayOneShot(audio.clip);
         yield return new WaitForSeconds(0.1f);
-        //MenuAnimator.SetBool("goToInputMenu", true);
-        //MenuAnimator.SetBool("goToStartMenu", false);
         MenuAnimator.SetTrigger("toInputMenu");
     }
     IEnumerator startGame()
@@ -121,17 +121,67 @@ public class testing : MonoBehaviour
     {
         audio.PlayOneShot(audio.clip);
         yield return new WaitForSeconds(0.1f);
-        //SceneManager.LoadScene("FruitWorld");
-
-        //MenuAnimator.SetBool("goToInputMenu", false);
-        //MenuAnimator.SetBool("goToStartMenu", true);
-
         MenuAnimator.SetTrigger("toStartMenu");
 
     }
-    IEnumerator increment()
+    IEnumerator increment_decrement(int index, GameObject go)
     {
+        print(go.transform.parent.GetChild(2));
         yield return new WaitForSeconds(0);
+        if(index==3)
+        {
+            if (inhaleAmount > 1)
+            {
+                inhaleAmount -= 1;
+            }
+            go.transform.parent.GetChild(2).GetComponent<TextMeshProUGUI>().text = inhaleAmount.ToString();
+
+        }
+        else if (index == 5)
+        {
+            if(exhaleAmount > 1)
+            {
+                exhaleAmount -= 1;
+            }
+            go.transform.parent.GetChild(2).GetComponent<TextMeshProUGUI>().text = exhaleAmount.ToString();
+
+        }
+        else if (index == 7)
+        {
+            if (numOfCycles > 1)
+            {
+                numOfCycles -= 1;
+            }
+            go.transform.parent.GetChild(2).GetComponent<TextMeshProUGUI>().text = numOfCycles.ToString();
+
+        }
+        else if (index == 4)
+        {
+            if (inhaleAmount <= 7)
+            {
+                inhaleAmount += 1;
+            }
+            go.transform.parent.GetChild(2).GetComponent<TextMeshProUGUI>().text = inhaleAmount.ToString();
+
+        }
+        else if (index == 6)
+        {
+            if (exhaleAmount <= 7)
+            {
+                exhaleAmount += 1;
+            }
+            go.transform.parent.GetChild(2).GetComponent<TextMeshProUGUI>().text = exhaleAmount.ToString();
+
+        }
+        else if (index == 8)
+        {
+            if (numOfCycles <= 9)
+            {
+                numOfCycles += 1;
+            }
+            go.transform.parent.GetChild(2).GetComponent<TextMeshProUGUI>().text = numOfCycles.ToString();
+
+        }
     }
     IEnumerator quit()
     {
